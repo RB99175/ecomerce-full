@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +26,6 @@ class App extends Component {
     const clicked = e.target.attributes.getNamedItem('id').value
     this.setState({ clicked: clicked })
   }
-
   putSubmitHandle = (e) => {
     e.preventDefault()
     const clicked = this.state.clicked
@@ -49,7 +47,6 @@ class App extends Component {
     this.setState({ productUrl: "" })
     this.setState({ clicked: false })
   }
-
   deleteHandle = (e) => {
     const clicked = e.target.attributes.getNamedItem('id').value
     fetch(`http://localhost:5000/mern/${clicked}`, {
@@ -80,7 +77,6 @@ class App extends Component {
         url: this.state.productUrl
       })
     })
-
     this.setState({ productName: "" })
     this.setState({ productPrice: "" })
     this.setState({ productUrl: "" })
@@ -95,7 +91,6 @@ class App extends Component {
     if (this.state.product) {
       return (
         <div className="App">
-
           {/* ------------------------- put/edit ------------------------- */}
           <div className={this.state.clicked ? "overlay" : "none"}>
             <form>
@@ -108,7 +103,6 @@ class App extends Component {
               </div>
             </form>
           </div>
-
           {/* ------------------------- create ------------------------- */}
           <div className={this.state.create ? "overlay" : "none"}>
             <form>
@@ -121,19 +115,18 @@ class App extends Component {
               </div>
             </form>
           </div>
-
           {/* --------------------- Product start here ---------------------------- */}
-          <button onClick={this.createHandle}>Create</button>
-          {this.state.product.map(e => (
-            <div key={e._id} >
-              <button id={e._id} onClick={e => this.deleteHandle(e)}>Delete</button>
-              <img src={e.url} alt={e.url} id={e._id} onClick={e => this.putOnClickHandle(e)} />
-              <h1>{e.name}</h1>
-              <h1>{e.price}</h1>
-            </div>
-          ))
-          }
-          <div>
+          <button className='create' onClick={this.createHandle}>Create</button>
+          <div className="product">
+            {this.state.product.map(e => (
+              <div key={e._id} className="each">
+                <div className="img" style={{ backgroundImage: `url(${e.url})` }} alt={e.url} id={e._id} onClick={e => this.putOnClickHandle(e)} />
+                <h1>{e.name}</h1>
+                <h1>{e.price}</h1>
+                <button id={e._id} onClick={e => this.deleteHandle(e)}>Delete</button>
+              </div>
+            ))
+            }
           </div>
         </div >
       );
